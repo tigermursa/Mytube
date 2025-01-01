@@ -97,8 +97,8 @@ const MyTube = () => {
         } bg-gray-950 p-4 transition-all duration-300`}
       >
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <Image src={"/mytube.jpg"} width={40} height={40} alt="logo" />
+          <div className="flex items-center gap-1">
+            <Icon icon="logos:youtube-icon" width={30} height={30} />
             {isSidebarOpen && <h1 className="text-xl font-bold">MyTube</h1>}
           </div>
           <button
