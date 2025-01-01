@@ -5,67 +5,24 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import searchIcon from "@iconify/icons-mdi/magnify";
 import micIcon from "@iconify/icons-mdi/microphone";
+import { useQuery } from "@tanstack/react-query";
+import { fetchVideos } from "@/lib/api";
+
 const MyTube = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const videoData = [
-    {
-      url: "https://youtu.be/ZxOLXImWvHU?si=VFe645VA6aWGRpxP",
-      title: "Title 1",
-      category: "Tech",
-    },
-    {
-      url: "https://youtu.be/azj_VtnOV4Q?si=lL215nF8_z53CxNv",
-      title: "Title 2",
-      category: "JavaScript",
-    },
-    {
-      url: "https://youtu.be/azj_VtnOV4Q?si=lL215nF8_z53CxNv",
-      title: "Title 3",
-      category: "React",
-    },
-    {
-      url: "https://youtu.be/azj_VtnOV4Q?si=lL215nF8_z53CxNv",
-      title: "Title 4",
-      category: "Next.js",
-    },
-    {
-      url: "https://youtu.be/-Zdp_0rZIcg?si=uSw4PpP4upIUDFPs",
-      title: "Title 5",
-      category: "Tech",
-    },
-    {
-      url: "https://youtu.be/gA-6-5sxN0s?si=9kpsnCOqSavmGnBh",
-      title: "Title 6",
-      category: "JavaScript",
-    },
-    {
-      url: "https://youtu.be/SVoBLsp1cjY?si=LiB4mWK2Z3eJ9Uw4",
-      title: "Title 7",
-      category: "React",
-    },
-    {
-      url: "https://youtu.be/066XnNRfjiE?si=cUJksjJtC38J1zmB",
-      title: "Title 8",
-      category: "Next.js",
-    },
-    {
-      url: "https://youtu.be/CLWGuNkQLAc?si=wt9lmLUhtgeznpPP",
-      title: "Title 9",
-      category: "Tech",
-    },
-    {
-      url: "https://youtu.be/Thhh9Om17I0?si=NJoJ8divXrePvCrO",
-      title: "Title 10",
-      category: "JavaScript",
-    },
-    {
-      url: "https://youtu.be/SycSR-NuDF0?si=5FHefo3o26Un1zjB",
-      title: "Title 11",
-      category: "React",
-    },
-  ];
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["videos"],
+    queryFn: fetchVideos,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data.data) return <div>No data</div>;
+  console.log(data.data);
+
+  const videoData = data?.data;
 
   const categories = ["All", "Tech", "JavaScript", "React", "Next.js"];
 
