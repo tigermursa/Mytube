@@ -2,7 +2,9 @@
 
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-
+import Image from "next/image";
+import searchIcon from "@iconify/icons-mdi/magnify";
+import micIcon from "@iconify/icons-mdi/microphone";
 const MyTube = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -92,11 +94,11 @@ const MyTube = () => {
       <aside
         className={`${
           isSidebarOpen ? "w-64" : "w-16"
-        } bg-gray-900 p-4 transition-all duration-300`}
+        } bg-gray-950 p-4 transition-all duration-300`}
       >
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <Icon icon="mdi:youtube" color="red" width={30} height={30} />
+            <Image src={"/mytube.jpg"} width={40} height={40} alt="logo" />
             {isSidebarOpen && <h1 className="text-xl font-bold">MyTube</h1>}
           </div>
           <button
@@ -139,13 +141,36 @@ const MyTube = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Navbar */}
-        <header className="bg-gray-900 p-4 flex items-center justify-between">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-1/2 p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring"
-          />
-          <img
+        <header className="bg-gray-950 p-4 flex items-center justify-between ">
+          <div>
+            <p className="text-black disabled">hi</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            {/* Search Bar */}
+            <div className="flex items-center w-96 bg-gray-900 rounded-full border border-gray-700 px-4 py-2">
+              <input
+                type="text"
+                placeholder="Search"
+                className="flex-grow bg-transparent text-white focus:outline-none"
+              />
+              <Icon
+                icon={searchIcon}
+                className="text-gray-400 cursor-pointer"
+                width={20}
+                height={20}
+              />
+            </div>
+            {/* Microphone Icon */}
+            <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-900 border border-gray-700">
+              <Icon
+                icon={micIcon}
+                className="text-gray-400 cursor-pointer"
+                width={20}
+                height={20}
+              />
+            </button>
+          </div>
+          <Image
             src="https://yt3.googleusercontent.com/ytc/AIdro_nal57KeBhUhRo4k8jl7fdgbOkT046_L2wfJoHmLsB0azbN=s160-c-k-c0x00ffffff-no-rj"
             alt="User Profile"
             width={40}
@@ -155,13 +180,13 @@ const MyTube = () => {
         </header>
 
         {/* Categories */}
-        <div className="flex space-x-4 p-4 bg-gray-800">
+        <div className="flex space-x-4 p-4 ">
           {categories.map((category) => (
             <button
               key={category}
-              className={`px-4 py-2 rounded-full text-sm font-medium focus:outline-none ${
+              className={`px-4 py-2 rounded-md text-sm font-medium focus:outline-none ${
                 selectedCategory === category
-                  ? "bg-red-500 text-white"
+                  ? "bg-gray-200 text-black"
                   : "bg-gray-700 text-gray-300 hover:bg-gray-600"
               }`}
               onClick={() => setSelectedCategory(category)}
@@ -181,7 +206,6 @@ const MyTube = () => {
               <iframe
                 className="w-full h-48 object-cover"
                 src={extractEmbedUrl(video.url)}
-                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               ></iframe>
