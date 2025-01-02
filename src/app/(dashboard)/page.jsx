@@ -1,13 +1,26 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
-
 import { useQuery } from "@tanstack/react-query";
 import { fetchVideos } from "@/lib/api";
+import { formatDistanceToNow } from "date-fns";
+
+// Skeleton for loading state
+const SkeletonCard = () => (
+  <div className="bg-gray-900 rounded overflow-hidden shadow animate-pulse">
+    <div className="w-full h-48 bg-gray-800"></div>
+    <div className="p-2">
+      <div className="h-4 bg-gray-800 rounded w-3/4 mb-2"></div>
+      <div className="h-3 bg-gray-700 rounded w-1/2"></div>
+    </div>
+  </div>
+);
 
 const MyTube = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [playingVideo, setPlayingVideo] = useState(null); // Tracks the currently playing video
 
+  // Fetching videos with react-query
   const { data, error, isLoading } = useQuery({
     queryKey: ["videos"],
     queryFn: fetchVideos,
@@ -17,6 +30,7 @@ const MyTube = () => {
 
   const handleCategoryChange = useCallback((category) => {
     setSelectedCategory(category);
+    setPlayingVideo(null); // Reset playing video when changing category
   }, []);
 
   const categories = [
@@ -37,18 +51,16 @@ const MyTube = () => {
     "Gem",
   ];
 
-  const extractEmbedUrl = useCallback((url) => {
+  // Extract video ID from URL
+  const extractVideoId = useCallback((url) => {
     try {
       if (url.includes("youtube.com")) {
         const urlParams = new URL(url).searchParams;
-        const videoId = urlParams.get("v");
-        return `https://www.youtube.com/embed/${videoId}`;
+        return urlParams.get("v");
       } else if (url.includes("youtu.be")) {
-        const videoId = url.split("youtu.be/")[1].split("?")[0];
-        return `https://www.youtube.com/embed/${videoId}`;
+        return url.split("youtu.be/")[1].split("?")[0];
       } else if (url.includes("youtube.com/live")) {
-        const liveId = new URL(url).pathname.split("/").pop();
-        return `https://www.youtube.com/embed/${liveId}`;
+        return new URL(url).pathname.split("/").pop();
       }
     } catch (err) {
       console.error("Error parsing video URL:", err);
@@ -56,58 +68,92 @@ const MyTube = () => {
     }
   }, []);
 
+  // Sort videos by `updatedAt` (latest first)
+  const sortedVideos = useMemo(() => {
+    if (!data?.data) return [];
+    return [...data.data].sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    );
+  }, [data]);
+
+  // Filter videos based on the selected category
   const filteredVideos = useMemo(() => {
-    return data?.data.filter(
+    return sortedVideos.filter(
       (video) =>
         selectedCategory === "All" || video.category === selectedCategory
     );
-  }, [data, selectedCategory]);
+  }, [sortedVideos, selectedCategory]);
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!data?.data) return <div>No data</div>;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex">
-      {/* Main Content */}
-      <div>
-        <div className="flex space-x-4 p-4">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`px-4 py-2 rounded-md text-sm font-medium ${
-                selectedCategory === category
-                  ? "bg-gray-200 text-black"
-                  : "bg-gray-800 bg-opacity-90 text-gray-300 font-semibold hover:bg-gray-600"
-              }`}
-              onClick={() => handleCategoryChange(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        <main className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredVideos.map((video, index) => (
-            <div
-              key={index}
-              className="bg-gray-900 rounded overflow-hidden shadow hover:shadow-lg cursor-pointer"
-            >
-              <iframe
-                className="w-full h-48"
-                src={extractEmbedUrl(video.url)}
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                allowFullScreen
-              ></iframe>
-
-              <div className="p-2">
-                <h2 className="text-sm font-semibold">{video.title}</h2>
-                <p className="text-xs text-gray-400">{video.category}</p>
-              </div>
-            </div>
-          ))}
-        </main>
+    <div className="min-h-screen bg-gray-950 text-white">
+      {/* Category buttons */}
+      <div className="flex space-x-4 p-4">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`px-4 py-2 rounded-md text-sm font-medium ${
+              selectedCategory === category
+                ? "bg-gray-200 text-black"
+                : "bg-gray-800 bg-opacity-90 text-gray-300 font-semibold hover:bg-gray-600"
+            }`}
+            onClick={() => handleCategoryChange(category)}
+          >
+            {category}
+          </button>
+        ))}
       </div>
+
+      {/* Video grid */}
+      <main className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* Skeleton cards for loading */}
+        {isLoading || !data
+          ? Array.from({ length: 8 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))
+          : filteredVideos.map((video, index) => (
+              <div
+                key={index}
+                className="bg-gray-900 rounded overflow-hidden shadow hover:shadow-lg cursor-pointer"
+              >
+                {playingVideo === index ? (
+                  // Embed the playable video when thumbnail is clicked
+                  <iframe
+                    className="w-full h-48"
+                    src={`https://www.youtube.com/embed/${extractVideoId(
+                      video.url
+                    )}`}
+                    allowFullScreen
+                    allow="autoplay; encrypted-media"
+                  ></iframe>
+                ) : (
+                  // Show the thumbnail by default
+                  <img
+                    className="w-full h-48 object-cover"
+                    src={`https://img.youtube.com/vi/${extractVideoId(
+                      video.url
+                    )}/hqdefault.jpg`}
+                    alt={video.title}
+                    onClick={() => setPlayingVideo(index)} // Play video on click
+                  />
+                )}
+
+                {/* Video info */}
+                <div className="p-2">
+                  <h2 className="text-sm font-semibold">{video.title}</h2>
+                  <div className="flex gap-2 text-xs text-gray-400 mt-1">
+                    <p>{video.category}</p>
+                    <p>
+                      {formatDistanceToNow(new Date(video.updatedAt), {
+                        addSuffix: true,
+                      })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+      </main>
     </div>
   );
 };
