@@ -40,7 +40,9 @@ const AddVideo = () => {
   });
 
   const onSubmit = (data) => {
-    addVideoMutation.mutate(data);
+    // Exclude isDeleted field
+    const { isDeleted, ...videoData } = data;
+    addVideoMutation.mutate(videoData);
   };
 
   return (
@@ -69,11 +71,6 @@ const AddVideo = () => {
             id="url"
             {...register("url", {
               required: "Video URL is required",
-              pattern: {
-                value:
-                  /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
-                message: "Invalid URL format",
-              },
             })}
             className="w-full p-2 mt-1 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
           />
@@ -83,20 +80,24 @@ const AddVideo = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-medium">
-            Description
+          <label htmlFor="category" className="block text-sm font-medium">
+            Category
           </label>
-          <textarea
-            id="description"
-            {...register("description", {
-              required: "Description is required",
-            })}
+          <select
+            id="category"
+            {...register("category", { required: "Category is required" })}
             className="w-full p-2 mt-1 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
-            rows="4"
-          ></textarea>
-          {errors.description && (
+          >
+            <option value="">Select a category</option>
+            <option value="React">React</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="TypeScript">TypeScript</option>
+            <option value="Interview Important">Interview Important</option>
+            <option value="Gem">Gem</option>
+          </select>
+          {errors.category && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.description.message}
+              {errors.category.message}
             </p>
           )}
         </div>
