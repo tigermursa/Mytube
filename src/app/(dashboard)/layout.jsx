@@ -17,10 +17,13 @@ const layout = ({ children }) => {
         } bg-gray-950 p-4 transition-all duration-300 h-screen`}
       >
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-1">
-            <Icon icon="logos:youtube-icon" width={30} height={30} />
-            {isSidebarOpen && <h1 className="text-xl font-bold">MyTube</h1>}
-          </div>
+          <Link href={"/"}>
+            <div className="flex items-center gap-1">
+              <Icon icon="logos:youtube-icon" width={30} height={30} />
+              {isSidebarOpen && <h1 className="text-xl font-bold">MyTube</h1>}
+            </div>
+          </Link>
+
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="text-gray-400 hover:text-white"
@@ -34,10 +37,12 @@ const layout = ({ children }) => {
 
         <nav>
           <ul className="space-y-4">
-            <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
-              <Icon icon="mdi:home" width={24} />
-              {isSidebarOpen && <span>Home</span>}
-            </li>
+            <Link href={"/"}>
+              <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                <Icon icon="mdi:home" width={24} />
+                {isSidebarOpen && <span>Home</span>}
+              </li>
+            </Link>
             <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
               <Icon icon="mdi:movie-outline" width={24} />
               {isSidebarOpen && <span>Shorts</span>}
@@ -54,11 +59,12 @@ const layout = ({ children }) => {
               <Icon icon="mdi:thumb-up-outline" width={24} />
               {isSidebarOpen && <span>Liked Videos</span>}
             </li>
-            <Link href={"/add-video"}>
-              <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
-                <Icon icon="mdi:thumb-up-outline" width={24} />
-                {isSidebarOpen && <span>Add Video</span>}
-              </li>
+            <Link
+              href={"/add-video"}
+              className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer"
+            >
+              <Icon icon="mdi:add" width={24} />
+              {isSidebarOpen && <span>Add Video</span>}
             </Link>
           </ul>
         </nav>

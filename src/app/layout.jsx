@@ -1,7 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Slide } from "react-toastify";
+
 import TanstackProvider from "@/providers/TanstackProvider";
-import { Slide, ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,17 +30,17 @@ export default function RootLayout({ children }) {
       >
         {/* react toastify */}
         <ToastContainer
-          position="top-center"
+          position="bottom-center"
           autoClose={2500}
           transition={Slide}
-          hideProgressBar
+          hideProgressBar={false}
           newestOnTop
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="light"
+          theme="dark"
         />
         <TanstackProvider>{children}</TanstackProvider>
       </body>
