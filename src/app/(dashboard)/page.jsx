@@ -24,7 +24,21 @@ const MyTube = () => {
     setSelectedCategory(category);
   }, []);
 
-  const categories = ["All", "Tech", "JavaScript", "React", "Next.js"];
+  const categories = [
+    "All",
+    "Tech News",
+    "JavaScript",
+    "React",
+    "Next.js",
+    "Python",
+    "React Native",
+    "Projects",
+    "Interview",
+    "DSA",
+    "Out Knowledge",
+    "Field Related",
+    "Gem",
+  ];
 
   const extractEmbedUrl = useCallback((url) => {
     try {
@@ -113,8 +127,8 @@ const MyTube = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <header className="bg-gray-950 p-4 flex items-center justify-between ">
+      <div className="flex-1 flex flex-col border">
+        <header className="bg-gray-950 p-4 flex items-center justify-between border border-red-600 ">
           <div>
             <p className="text-black disabled">hi</p>
           </div>
