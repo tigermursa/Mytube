@@ -78,7 +78,7 @@ const MyTube = () => {
               className={`px-4 py-2 rounded-md text-sm font-medium ${
                 selectedCategory === category
                   ? "bg-gray-200 text-black"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  : "bg-gray-800 bg-opacity-90 text-gray-300 font-semibold hover:bg-gray-600"
               }`}
               onClick={() => handleCategoryChange(category)}
             >
