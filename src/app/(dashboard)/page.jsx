@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
-import { Icon } from "@iconify/react";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchVideos } from "@/lib/api";
@@ -68,8 +67,6 @@ const MyTube = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white flex">
-      {/* Sidebar */}
-
       {/* Main Content */}
       <div>
         <div className="flex space-x-4 p-4">

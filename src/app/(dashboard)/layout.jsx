@@ -14,7 +14,7 @@ const layout = ({ children }) => {
       <aside
         className={`${
           isSidebarOpen ? "w-64" : "w-16"
-        } bg-gray-950 p-4 transition-all duration-300`}
+        } bg-gray-950 p-4 transition-all duration-300 h-screen`}
       >
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-1">
@@ -102,7 +102,6 @@ const layout = ({ children }) => {
             className="rounded-full cursor-pointer"
           />
         </header>
-
         {children}
       </div>
     </div>

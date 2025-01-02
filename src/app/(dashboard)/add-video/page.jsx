@@ -40,31 +40,31 @@ const AddVideo = () => {
   });
 
   const onSubmit = (data) => {
-    // Exclude isDeleted field
     const { isDeleted, ...videoData } = data;
     addVideoMutation.mutate(videoData);
   };
 
   return (
-    <div className="bg-gray-900 text-white p-6 rounded-lg max-w-md mx-auto mt-10">
-      <h2 className="text-center text-xl font-semibold mb-4">Add New Video</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-medium">
+    <div className="bg-gray-900 text-white p-8 rounded-xl w-[400px] mx-auto flex flex-col justify-center items-center shadow-lg mt-10">
+      <h2 className="text-center text-2xl font-bold mb-6">Add New Video</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+        <div>
+          <label htmlFor="title" className="block text-sm font-medium mb-2">
             Title
           </label>
           <input
             id="title"
             {...register("title", { required: "Title is required" })}
-            className="w-full p-2 mt-1 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter video title"
           />
           {errors.title && (
-            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.title.message}</p>
           )}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="url" className="block text-sm font-medium">
+        <div>
+          <label htmlFor="url" className="block text-sm font-medium mb-2">
             Video URL
           </label>
           <input
@@ -72,23 +72,26 @@ const AddVideo = () => {
             {...register("url", {
               required: "Video URL is required",
             })}
-            className="w-full p-2 mt-1 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter video URL"
           />
           {errors.url && (
-            <p className="text-red-500 text-sm mt-1">{errors.url.message}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.url.message}</p>
           )}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="category" className="block text-sm font-medium">
+        <div>
+          <label htmlFor="category" className="block text-sm font-medium mb-2">
             Category
           </label>
           <select
             id="category"
             {...register("category", { required: "Category is required" })}
-            className="w-full p-2 mt-1 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Select a category</option>
+            <option value="" disabled>
+              Select a category
+            </option>
             <option value="React">React</option>
             <option value="JavaScript">JavaScript</option>
             <option value="TypeScript">TypeScript</option>
@@ -96,7 +99,7 @@ const AddVideo = () => {
             <option value="Gem">Gem</option>
           </select>
           {errors.category && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-sm mt-2">
               {errors.category.message}
             </p>
           )}
@@ -104,7 +107,7 @@ const AddVideo = () => {
 
         <button
           type="submit"
-          className={`w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 ${
+          className={`w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ${
             addVideoMutation.isLoading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           disabled={addVideoMutation.isLoading}
