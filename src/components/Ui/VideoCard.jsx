@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { deleteVideo } from "@/lib/api";
 import { Icon } from "@iconify/react";
 import { formatDistanceToNow } from "date-fns";
@@ -18,6 +18,7 @@ const VideoCard = ({ props }) => {
 
   const [dropdownVisible, setDropdownVisible] = useState(null); // Tracks dropdown visibility
   const [isDeleting, setIsDeleting] = useState(false); // Tracks delete loading state
+  const dropdownRef = useRef(null);
 
   const handleDelete = async (id) => {
     try {
@@ -31,6 +32,9 @@ const VideoCard = ({ props }) => {
 
       // Refetch the videos
       await refetch();
+
+      // Close dropdown
+      setDropdownVisible(null);
     } catch (error) {
       // Log the actual error
       console.error("Failed to delete video:", error);
@@ -41,6 +45,19 @@ const VideoCard = ({ props }) => {
       setIsDeleting(false);
     }
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Skeleton for loading state
   const SkeletonCard = () => (
@@ -102,7 +119,7 @@ const VideoCard = ({ props }) => {
             </div>
 
             {/* Dropdown */}
-            <div className="absolute top-2 right-2">
+            <div className="absolute top-2 right-2" ref={dropdownRef}>
               <button
                 onClick={() =>
                   setDropdownVisible((prev) => (prev === index ? null : index))
@@ -115,7 +132,10 @@ const VideoCard = ({ props }) => {
                 <div className="absolute right-0 bg-gray-800 text-gray-200 rounded shadow-lg p-2 mt-2 w-40 transition-opacity duration-300 ease-in-out">
                   <button
                     className="flex items-center w-full text-left px-2 py-1 hover:bg-gray-700"
-                    onClick={() => alert("Update functionality coming soon!")}
+                    onClick={() => {
+                      alert("Update functionality coming soon!");
+                      setDropdownVisible(null);
+                    }}
                   >
                     <Icon icon="mdi:lead-pencil" className="mr-2 text-sm" />
                     Update
