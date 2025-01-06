@@ -75,7 +75,7 @@ const VideoCard = ({ props }) => {
         ))
       ) : (
         // Show "No videos found" message
-        <div className="col-span-full flex flex-col items-center justify-center text-gray-400">
+        <div className="col-span-full flex h-[400px] md:h-[600px] flex-col items-center justify-center text-gray-400">
           <Icon icon="bx:error-alt" className="text-6xl mb-2" />
           <p className="text-lg">No videos found</p>
         </div>
