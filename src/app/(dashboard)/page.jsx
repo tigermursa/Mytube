@@ -10,13 +10,15 @@ const MyTube = () => {
   const [playingVideo, setPlayingVideo] = useState(null); // Tracks the currently playing video
 
   // Fetching videos with react-query
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["videos"],
     queryFn: fetchVideos,
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // Data is fresh for 5 minutes
+    cacheTime: 10 * 60 * 1000, // Cache is retained for 10 minutes
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+    refetchOnMount: "always", // Always refetch when the component is mounted
+    refetchOnReconnect: true, // Refetch when the connection is restored
   });
-
   const handleCategoryChange = useCallback((category) => {
     setSelectedCategory(category);
     setPlayingVideo(null); // Reset playing video when changing category
@@ -82,6 +84,7 @@ const MyTube = () => {
     playingVideo,
     setPlayingVideo,
     extractVideoId,
+    refetch,
   };
 
   return (

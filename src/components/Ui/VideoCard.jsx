@@ -3,6 +3,7 @@ import { useState } from "react";
 import { deleteVideo } from "@/lib/api";
 import { Icon } from "@iconify/react";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "react-toastify";
 
 const VideoCard = ({ props }) => {
   const {
@@ -12,6 +13,7 @@ const VideoCard = ({ props }) => {
     playingVideo,
     setPlayingVideo,
     extractVideoId,
+    refetch,
   } = props;
 
   const [dropdownVisible, setDropdownVisible] = useState(null); // Tracks dropdown visibility
@@ -20,12 +22,21 @@ const VideoCard = ({ props }) => {
   const handleDelete = async (id) => {
     try {
       setIsDeleting(true);
+
+      // Call the API to delete the video
       await deleteVideo(id);
-      alert("Video deleted successfully!");
-      // Refetch or update state to reflect deletion
+
+      // Success toast
+      toast.success("Video deleted successfully!");
+
+      // Refetch the videos
+      await refetch();
     } catch (error) {
+      // Log the actual error
       console.error("Failed to delete video:", error);
-      alert("Failed to delete video");
+
+      // Show error toast
+      toast.error("Failed to delete video");
     } finally {
       setIsDeleting(false);
     }

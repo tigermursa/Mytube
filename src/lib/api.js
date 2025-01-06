@@ -19,23 +19,30 @@ export const fetchDeletedVideos = async () => {
 };
 
 export const deleteVideo = async (id) => {
-  const response = await fetch(
-    `https://mytube-server.vercel.app/api/v1/video/${id}/toggle-delete`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  try {
+    const response = await fetch(
+      `https://mytube-server.vercel.app/api/v1/video/${id}/toggle-delete`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      // Throw an error if the response is not OK
+      throw new Error("Failed to delete video");
     }
-  );
 
-  if (!response.ok) {
-    throw new Error("Failed to delete video");
+    // Return the JSON response if successful
+    return await response.json();
+  } catch (error) {
+    // Log the error for debugging
+    console.error("Error in deleteVideo:", error);
+    throw error; // Re-throw the error for the calling function to handle
   }
-
-  return response.json();
 };
-
 export const addVideo = async (newVideo) => {
   const response = await fetch(
     "https://mytube-server.vercel.app/api/v1/create-video",

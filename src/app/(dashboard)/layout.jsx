@@ -52,10 +52,12 @@ const layout = ({ children }) => {
               <Icon icon="mdi:playlist-play" width={24} />
               {isSidebarOpen && <span>Subscriptions</span>}
             </li>
-            <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
-              <Icon icon="mdi:history" width={24} />
-              {isSidebarOpen && <span>History</span>}
-            </li>
+            <Link href={"/deleted"}>
+              <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                <Icon icon="mdi:history" width={24} />
+                {isSidebarOpen && <span>History</span>}
+              </li>
+            </Link>
             <li className="flex items-center gap-4 hover:bg-gray-800 p-2 rounded cursor-pointer">
               <Icon icon="mdi:thumb-up-outline" width={24} />
               {isSidebarOpen && <span>Liked Videos</span>}
