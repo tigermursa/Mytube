@@ -85,54 +85,51 @@ const VideoCard = ({ props }) => {
               />
             )}
 
-            <div className="p-2  flex justify-between items-center">
-              <div>
-                <h2 className="text-sm font-semibold truncate">
-                  {video.title.length > 45
-                    ? video.title.slice(0, 45) + "..."
-                    : video.title}
-                </h2>
-                <div className="flex gap-2 text-xs text-gray-400 mt-1">
-                  <p>{video.category}</p>
-                  <p>
-                    {formatDistanceToNow(new Date(video.updatedAt), {
-                      addSuffix: true,
-                    })}
-                  </p>
+            <div className="p-2">
+              <h2 className="text-sm font-semibold truncate">
+                {video.title.length > 45
+                  ? video.title.slice(0, 45) + "..."
+                  : video.title}
+              </h2>
+              <div className="flex gap-2 text-xs text-gray-400 mt-1">
+                <p>{video.category}</p>
+                <p>
+                  {formatDistanceToNow(new Date(video.updatedAt), {
+                    addSuffix: true,
+                  })}
+                </p>
+              </div>
+            </div>
+
+            {/* Dropdown */}
+            <div className="absolute top-2 right-2">
+              <button
+                onClick={() =>
+                  setDropdownVisible((prev) => (prev === index ? null : index))
+                }
+                className="text-white"
+              >
+                <Icon icon="mdi:dots-vertical" className="text-lg" />
+              </button>
+              {dropdownVisible === index && (
+                <div className="absolute right-0 bg-gray-800 text-gray-200 rounded shadow-lg p-2 mt-2 w-40 transition-opacity duration-300 ease-in-out">
+                  <button
+                    className="flex items-center w-full text-left px-2 py-1 hover:bg-gray-700"
+                    onClick={() => alert("Update functionality coming soon!")}
+                  >
+                    <Icon icon="mdi:lead-pencil" className="mr-2 text-sm" />
+                    Update
+                  </button>
+                  <button
+                    className="flex items-center w-full text-left px-2 py-1 text-red-500 hover:bg-gray-700"
+                    onClick={() => handleDelete(video._id)}
+                    disabled={isDeleting}
+                  >
+                    <Icon icon="mdi:delete" className="mr-2 text-sm" />
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </button>
                 </div>
-              </div>
-              {/* Dropdown */}
-              <div className="">
-                <button
-                  onClick={() =>
-                    setDropdownVisible((prev) =>
-                      prev === index ? null : index
-                    )
-                  }
-                  className="text-white"
-                >
-                  <Icon icon="mdi:dots-vertical" className="text-lg" />
-                </button>
-                {dropdownVisible === index && (
-                  <div className="absolute right-0 bg-gray-800 text-gray-200 rounded shadow-lg p-2 mt-2 w-40 transition-opacity duration-300 ease-in-out">
-                    <button
-                      className="flex items-center w-full text-left px-2 py-1 hover:bg-gray-700"
-                      onClick={() => alert("Update functionality coming soon!")}
-                    >
-                      <Icon icon="mdi:lead-pencil" className="mr-2 text-sm" />
-                      Update
-                    </button>
-                    <button
-                      className="flex items-center w-full text-left px-2 py-1 text-red-500 hover:bg-gray-700"
-                      onClick={() => handleDelete(video._id)}
-                      disabled={isDeleting}
-                    >
-                      <Icon icon="mdi:delete" className="mr-2 text-sm" />
-                      {isDeleting ? "Deleting..." : "Delete"}
-                    </button>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
           </div>
         ))

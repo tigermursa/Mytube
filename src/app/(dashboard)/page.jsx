@@ -88,7 +88,7 @@ const MyTube = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-gray-950 text-white ">
       {/* Category buttons */}
       <div className="flex space-x-4 p-4">
         {categories.map((category) => (
