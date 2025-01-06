@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
+import { addVideo } from "@/lib/api";
 
 const AddVideo = () => {
   const {
@@ -14,24 +15,7 @@ const AddVideo = () => {
   } = useForm();
 
   const addVideoMutation = useMutation({
-    mutationFn: async (newVideo) => {
-      const response = await fetch(
-        "https://mytube-server.vercel.app/api/v1/create-video",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newVideo),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to add video");
-      }
-
-      return response.json();
-    },
+    mutationFn: addVideo,
     onSuccess: () => {
       toast.success("Video added successfully!");
       reset();
@@ -42,7 +26,7 @@ const AddVideo = () => {
   });
 
   const onSubmit = (data) => {
-    const { isDeleted, ...videoData } = data;
+    const { ...videoData } = data;
     addVideoMutation.mutate(videoData);
   };
 
