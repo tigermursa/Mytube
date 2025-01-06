@@ -32,8 +32,6 @@ const VideoCard = ({ props }) => {
 
       // Refetch the videos
       await refetch();
-
-      // Close dropdown
       setDropdownVisible(null);
     } catch (error) {
       // Log the actual error
@@ -119,7 +117,7 @@ const VideoCard = ({ props }) => {
             </div>
 
             {/* Dropdown */}
-            <div className="absolute top-2 right-2" ref={dropdownRef}>
+            <div className="absolute top-2 right-2">
               <button
                 onClick={() =>
                   setDropdownVisible((prev) => (prev === index ? null : index))
@@ -132,10 +130,7 @@ const VideoCard = ({ props }) => {
                 <div className="absolute right-0 bg-gray-800 text-gray-200 rounded shadow-lg p-2 mt-2 w-40 transition-opacity duration-300 ease-in-out">
                   <button
                     className="flex items-center w-full text-left px-2 py-1 hover:bg-gray-700"
-                    onClick={() => {
-                      alert("Update functionality coming soon!");
-                      setDropdownVisible(null);
-                    }}
+                    onClick={() => alert("Update functionality coming soon!")}
                   >
                     <Icon icon="mdi:lead-pencil" className="mr-2 text-sm" />
                     Update
