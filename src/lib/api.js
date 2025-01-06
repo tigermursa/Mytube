@@ -8,9 +8,19 @@ export const fetchVideos = async () => {
   return response.json();
 };
 
+export const fetchDeletedVideos = async () => {
+  const response = await fetch(
+    "https://mytube-server.vercel.app/api/v1/videos/deleted"
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch videos");
+  }
+  return response.json();
+};
+
 export const deleteVideo = async (id) => {
   const response = await fetch(
-    `https://mytube-server.vercel.app/video/${id}/toggle-delete`,
+    `https://mytube-server.vercel.app/api/v1/video/${id}/toggle-delete`,
     {
       method: "PATCH",
       headers: {
