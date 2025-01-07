@@ -43,6 +43,7 @@ export const deleteVideo = async (id) => {
     throw error; // Re-throw the error for the calling function to handle
   }
 };
+
 export const addVideo = async (newVideo) => {
   const response = await fetch(
     "https://mytube-server.vercel.app/api/v1/create-video",
