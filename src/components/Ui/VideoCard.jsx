@@ -6,16 +6,14 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const VideoCard = ({ props }) => {
-  const {
-    isLoading,
-    data,
-    filteredVideos,
-    playingVideo,
-    setPlayingVideo,
-    extractVideoId,
-  } = props;
-
+const VideoCard = ({
+  isLoading,
+  data,
+  filteredVideos,
+  playingVideo,
+  setPlayingVideo,
+  extractVideoId,
+}) => {
   const [dropdownVisible, setDropdownVisible] = useState(null); // Tracks dropdown visibility
   //const [isDeleting, setIsDeleting] = useState(false); // Tracks delete loading state
   const dropdownRef = useRef(null);
