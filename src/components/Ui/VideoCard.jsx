@@ -4,6 +4,7 @@ import { deleteVideo } from "@/lib/api";
 import { Icon } from "@iconify/react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const VideoCard = ({ props }) => {
   const {
@@ -13,35 +14,31 @@ const VideoCard = ({ props }) => {
     playingVideo,
     setPlayingVideo,
     extractVideoId,
-    refetch,
   } = props;
 
   const [dropdownVisible, setDropdownVisible] = useState(null); // Tracks dropdown visibility
-  const [isDeleting, setIsDeleting] = useState(false); // Tracks delete loading state
+  //const [isDeleting, setIsDeleting] = useState(false); // Tracks delete loading state
   const dropdownRef = useRef(null);
+  const queryClient = useQueryClient();
 
-  const handleDelete = async (id) => {
-    try {
-      setIsDeleting(true);
-
-      // Call the API to delete the video
-      await deleteVideo(id);
-
-      // Success toast
+  // Mutation for delete API
+  const { mutate: softDeleteVideo, isDeleting } = useMutation({
+    mutationFn: deleteVideo,
+    onSuccess: () => {
+      // Invalidate or refetch the video list
+      queryClient.invalidateQueries(["videos"]);
       toast.success("Video deleted successfully!");
-
-      // Refetch the videos
-      await refetch();
       setDropdownVisible(null);
-    } catch (error) {
-      // Log the actual error
+    },
+    onError: (error) => {
       console.error("Failed to delete video:", error);
-
-      // Show error toast
       toast.error("Failed to delete video");
-    } finally {
-      setIsDeleting(false);
-    }
+    },
+  });
+
+  const handleDelete = (id) => {
+    // Trigger the mutation
+    softDeleteVideo(id);
   };
 
   // Close dropdown when clicking outside
@@ -141,7 +138,7 @@ const VideoCard = ({ props }) => {
                     disabled={isDeleting}
                   >
                     <Icon icon="mdi:delete" className="mr-2 text-sm" />
-                    {isDeleting ? "Deleting..." : "Delete"}
+                    {isDeleting || isLoading ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               )}
