@@ -12,12 +12,12 @@ const layout = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex flex-grow">
+      <div className="flex flex-grow ">
         {/* Sidebar */}
         <aside
           className={`${
             isSidebarOpen ? "w-64" : "w-16"
-          } bg-gray-950 p-4 transition-all duration-300 h-screen hidden sm:block`}
+          } bg-gray-950 p-4 transition-all duration-300 hidden sm:block`}
         >
           <div className="flex items-center justify-between mb-6">
             <Link href={"/"}>

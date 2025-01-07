@@ -5,7 +5,8 @@ import { Icon } from "@iconify/react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Link from "next/link";
+import CategorySelector from "./CategorySelector";
+import NavigationMobile from "../Shared/NavigationMobile";
 
 const VideoCard = ({
   isLoading,
@@ -69,24 +70,14 @@ const VideoCard = ({
   return (
     <>
       {/* Category Selector */}
-      <div className="flex space-x-4 p-4  overflow-x-auto max-w-[400px] sm:max-w-full mb-4">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-150 ease-in-out ${
-              selectedCategory === category
-                ? "bg-gray-200 text-black"
-                : "bg-gray-800 bg-opacity-90 text-gray-300 font-semibold hover:bg-gray-600"
-            }`}
-            onClick={() => handleCategoryChange(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
+      <CategorySelector
+        categories={categories}
+        selectedCategory={selectedCategory}
+        handleCategoryChange={handleCategoryChange}
+      />
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6 sm:p-4">
         {isLoading || !data ? (
-          Array.from({ length: 8 }).map((_, index) => (
+          Array.from({ length: 10 }).map((_, index) => (
             <SkeletonCard key={index} />
           ))
         ) : filteredVideos.length > 0 ? (
@@ -174,20 +165,7 @@ const VideoCard = ({
       </main>
 
       {/* Sticky Bottom Navigation for Mobile */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-gray-950 p-4 flex justify-around items-center z-[555]">
-        <Link href={"/"} className="flex flex-col items-center">
-          <Icon icon="mdi:home" width={24} height={24} />
-          <span className="text-sm">Home</span>
-        </Link>
-        <Link href={"/deleted"} className="flex flex-col items-center">
-          <Icon icon="mdi:history" width={24} height={24} />
-          <span className="text-sm">History</span>
-        </Link>
-        <Link href={"/add-video"} className="flex flex-col items-center">
-          <Icon icon="mdi:add" width={24} height={24} />
-          <span className="text-sm">Add</span>
-        </Link>
-      </div>
+      <NavigationMobile />
     </>
   );
 };
