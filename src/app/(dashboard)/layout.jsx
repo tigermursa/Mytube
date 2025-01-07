@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import searchIcon from "@iconify/icons-mdi/magnify";
 import micIcon from "@iconify/icons-mdi/microphone";
+import NavigationMobile from "@/components/Shared/NavigationMobile";
 
 const layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -117,6 +118,8 @@ const layout = ({ children }) => {
           {children}
         </div>
       </div>
+      {/* Sticky Bottom Navigation for Mobile */}
+      <NavigationMobile />
     </div>
   );
 };

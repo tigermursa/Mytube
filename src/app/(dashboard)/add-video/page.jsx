@@ -49,7 +49,7 @@ const AddVideo = () => {
   ];
 
   return (
-    <div className="bg-gray-950 border text-white p-8 rounded-xl w-[400px] mx-auto flex flex-col justify-center items-center shadow-lg mt-10">
+    <div className="bg-gray-950 border text-white p-8 rounded-xl w-[350px] md:w-[400px] mx-auto flex flex-col justify-center items-center shadow-lg mt-10">
       <div className="flex items-center gap-1">
         <Icon icon="logos:youtube-icon" width={30} height={30} />
         <h1 className="text-2xl font-bold">Add New Video</h1>

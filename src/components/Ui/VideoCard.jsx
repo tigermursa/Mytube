@@ -6,7 +6,6 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CategorySelector from "./CategorySelector";
-import NavigationMobile from "../Shared/NavigationMobile";
 import UpdateVideoModal from "./UpdateVideoModal";
 
 const VideoCard = ({
@@ -172,9 +171,6 @@ const VideoCard = ({
           </div>
         )}
       </main>
-
-      {/* Sticky Bottom Navigation for Mobile */}
-      <NavigationMobile />
 
       {/* Update Modal */}
       <UpdateVideoModal
