@@ -71,6 +71,7 @@ const VideoCard = ({
 
   const openUpdateModal = (video) => {
     setSelectedVideo(video);
+    setDropdownVisible(null);
   };
 
   const closeUpdateModal = () => setSelectedVideo(null);
