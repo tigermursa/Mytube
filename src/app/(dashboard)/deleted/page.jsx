@@ -10,7 +10,7 @@ const Deleted = () => {
   const [playingVideo, setPlayingVideo] = useState(null); // Tracks the currently playing video
 
   // Fetching videos with react-query
-  const { data, error, isLoading, refetch } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["videos"],
     queryFn: fetchDeletedVideos,
     staleTime: 5 * 60 * 1000, // Data is fresh for 5 minutes
@@ -78,16 +78,6 @@ const Deleted = () => {
 
   if (error) return <div>Error: {error.message}</div>;
 
-  const VideoCardProps = {
-    isLoading,
-    data,
-    filteredVideos,
-    playingVideo,
-    setPlayingVideo,
-    extractVideoId,
-    refetch,
-  };
-
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       {/* Category buttons */}
@@ -108,7 +98,14 @@ const Deleted = () => {
       </div>
 
       {/* Video grid card */}
-      <VideoCard props={VideoCardProps} />
+      <VideoCard
+        isLoading={isLoading}
+        data={data}
+        filteredVideos={filteredVideos}
+        playingVideo={playingVideo}
+        setPlayingVideo={setPlayingVideo}
+        extractVideoId={extractVideoId}
+      />
     </div>
   );
 };
