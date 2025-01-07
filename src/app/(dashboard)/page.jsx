@@ -87,23 +87,6 @@ const MyTube = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      {/* Category Selector */}
-      <div className="flex space-x-4 p-4">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-150 ease-in-out ${
-              selectedCategory === category
-                ? "bg-gray-200 text-black"
-                : "bg-gray-800 bg-opacity-90 text-gray-300 font-semibold hover:bg-gray-600"
-            }`}
-            onClick={() => handleCategoryChange(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
       {/* Video Grid */}
       <VideoCard
         isLoading={isLoading}
@@ -112,6 +95,9 @@ const MyTube = () => {
         playingVideo={playingVideo}
         setPlayingVideo={setPlayingVideo}
         extractVideoId={extractVideoId}
+        categories={categories}
+        selectedCategory={selectedCategory}
+        handleCategoryChange={handleCategoryChange}
       />
     </div>
   );
