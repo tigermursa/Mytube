@@ -166,7 +166,7 @@ const VideoCard = ({
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center h-screen text-gray-400">
+          <div className="col-span-full flex flex-col items-center justify-center h-screen text-gray-400 lg:me-40">
             <Icon icon="bx:error-alt" className="text-6xl mb-2" />
             <p>No videos found</p>
           </div>
