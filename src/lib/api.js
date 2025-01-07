@@ -1,3 +1,4 @@
+//get all videos
 export const fetchVideos = async () => {
   const response = await fetch(
     "https://mytube-server.vercel.app/api/v1/get-all-videos"
@@ -58,6 +59,23 @@ export const addVideo = async (newVideo) => {
 
   if (!response.ok) {
     throw new Error("Failed to add video");
+  }
+
+  return response.json();
+};
+
+export const updateVideoData = async (videoId, updatedData) => {
+  const response = await fetch(
+    `https://mytube-server.vercel.app/api/v1/update-video/${videoId}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to update video");
   }
 
   return response.json();

@@ -1,6 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
-import { useForm } from "react-hook-form";
+import { updateVideoData } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const UpdateVideoModal = ({ isOpen, onClose, video }) => {
@@ -13,29 +14,29 @@ const UpdateVideoModal = ({ isOpen, onClose, video }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      url: video?.url || "",
-      title: video?.title || "",
-      category: video?.category || "",
+      url: "",
+      title: "",
+      category: "",
     },
   });
 
-  const { mutate: updateVideo, isLoading } = useMutation({
-    mutationFn: async (updatedData) => {
-      const response = await fetch(
-        `https://mytube-server.vercel.app/api/v1/update-video/${video._id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedData),
-        }
-      );
+  // Update default values when `video` changes
+  useEffect(() => {
+    if (video) {
+      reset({
+        url: video.url || "",
+        title: video.title || "",
+        category: video.category || "",
+      });
+    }
+  }, [video, reset]);
 
-      if (!response.ok) {
-        throw new Error("Failed to update video");
-      }
-
-      return response.json();
-    },
+  const {
+    mutate: updateVideo,
+    isLoading,
+    isPending,
+  } = useMutation({
+    mutationFn: (updatedData) => updateVideoData(video._id, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries(["videos"]);
       toast.success("Video updated successfully!");
@@ -108,14 +109,14 @@ const UpdateVideoModal = ({ isOpen, onClose, video }) => {
             </button>
             <button
               type="submit"
-              className={`px-4 py-2 rounded ${
+              className={`px-4 w-[120px] text-center py-2 rounded ${
                 isLoading
                   ? "bg-gray-600 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700"
               } text-white`}
               disabled={isLoading}
             >
-              {isLoading ? "Updating..." : "Update"}
+              {isLoading || isPending ? "Updating..." : "Update"}
             </button>
           </div>
         </form>
