@@ -22,7 +22,7 @@ const VideoCard = ({ props }) => {
   const queryClient = useQueryClient();
 
   // Mutation for delete API
-  const { mutate: softDeleteVideo, isDeleting } = useMutation({
+  const { mutate: softDeleteVideo, isPending } = useMutation({
     mutationFn: deleteVideo,
     onSuccess: () => {
       // Invalidate or refetch the video list
@@ -135,10 +135,10 @@ const VideoCard = ({ props }) => {
                   <button
                     className="flex items-center w-full text-left px-2 py-1 text-red-500 hover:bg-gray-700"
                     onClick={() => handleDelete(video._id)}
-                    disabled={isDeleting}
+                    disabled={isPending}
                   >
                     <Icon icon="mdi:delete" className="mr-2 text-sm" />
-                    {isDeleting || isLoading ? "Deleting..." : "Delete"}
+                    {isPending || isLoading ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               )}
