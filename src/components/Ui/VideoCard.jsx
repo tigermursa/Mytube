@@ -83,7 +83,7 @@ const VideoCard = ({
         selectedCategory={selectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6 sm:p-4">
+      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-5 gap-4 p-4">
         {isLoading || !data ? (
           Array.from({ length: 10 }).map((_, index) => (
             <SkeletonCard key={index} />
@@ -92,7 +92,8 @@ const VideoCard = ({
           filteredVideos.map((video, index) => (
             <div
               key={index}
-              className="relative bg-gray-900 rounded overflow-hidden shadow hover:shadow-lg cursor-pointer "
+              className="relative bg-gray-900 rounded overflow-hidden shadow hover:shadow-lg cursor-pointer"
+              style={{ maxWidth: "100%", minWidth: "280px" }}
             >
               {playingVideo === index ? (
                 <iframe
@@ -130,7 +131,6 @@ const VideoCard = ({
                 </div>
               </div>
 
-              {/* Dropdown */}
               <div className="absolute top-2 right-2">
                 <button
                   onClick={() =>
@@ -143,10 +143,10 @@ const VideoCard = ({
                   <Icon icon="mdi:dots-vertical" className="text-lg" />
                 </button>
                 {dropdownVisible === index && (
-                  <div className="absolute right-0 bg-gray-800 text-gray-200 rounded shadow-lg p-2 mt-2 w-40 transition-opacity duration-300 ease-in-out">
+                  <div className="absolute right-0 bg-gray-800 text-gray-200 rounded shadow-lg p-2 mt-2 w-40">
                     <button
                       className="flex items-center w-full text-left px-2 py-1 hover:bg-gray-700"
-                      onClick={() => openUpdateModal(video)} // Pass the video object
+                      onClick={() => openUpdateModal(video)}
                     >
                       <Icon icon="mdi:lead-pencil" className="mr-2 text-sm" />
                       Update
@@ -165,7 +165,7 @@ const VideoCard = ({
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center h-screen text-gray-400 lg:me-40">
+          <div className="col-span-full flex flex-col items-center justify-center h-screen text-gray-400">
             <Icon icon="bx:error-alt" className="text-6xl mb-2" />
             <p>No videos found</p>
           </div>

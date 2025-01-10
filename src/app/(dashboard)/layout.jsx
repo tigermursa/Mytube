@@ -9,7 +9,7 @@ import micIcon from "@iconify/icons-mdi/microphone";
 import NavigationMobile from "@/components/Shared/NavigationMobile";
 
 const layout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen">
