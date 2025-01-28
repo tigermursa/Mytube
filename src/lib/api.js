@@ -1,4 +1,3 @@
-// Define a base URL for the API
 const baseURL = "https://mytube-server.vercel.app/api/v1";
 
 // Centralized API request handler
