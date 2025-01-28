@@ -10,27 +10,35 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  // Define ignored files or directories
   {
     ignores: ["node_modules/", ".next/", "public/"],
   },
-
-  // Use Next.js recommended configuration
   ...compat.extends("next/core-web-vitals"),
-
-  // Add custom rules
   {
-    files: ["**/*.js", "**/*.jsx"], // Match JavaScript files
+    files: ["**/*.test.js", "**/*.test.jsx"],
+    env: {
+      jest: true,
+    },
+    plugins: ["jest"],
+    rules: {
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error",
+    },
+  },
+  {
+    files: ["**/*.js", "**/*.jsx"],
     languageOptions: {
-      ecmaVersion: 2023, // Latest ECMAScript version
-      sourceType: "module", // Use ES Modules
+      ecmaVersion: 2023,
+      sourceType: "module",
     },
     rules: {
-      "no-unused-vars": "error", // Disallow unused variables
-      "no-unused-expressions": "error", // Disallow unused expressions
-      "prefer-const": "error", // Enforce use of const for variables that are never reassigned
-      // 'no-console': 'warn', // Warn on console usage (optional, uncomment if needed)
-      "no-undef": "error", // Disallow use of undefined variables
+      "no-unused-vars": "error",
+      "no-unused-expressions": "error",
+      "prefer-const": "error",
+      "no-undef": "error",
     },
   },
 ];
