@@ -1,4 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // toastify
 import { ToastContainer } from "react-toastify";
@@ -6,16 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Slide } from "react-toastify";
 
 import TanstackProvider from "@/providers/TanstackProvider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "MyTube",
@@ -25,9 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`antialiased`}>
         {/* react toastify */}
         <ToastContainer
           position="bottom-center"
