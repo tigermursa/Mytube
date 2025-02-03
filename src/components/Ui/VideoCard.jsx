@@ -27,11 +27,12 @@ const VideoCard = ({
   // Mutation for delete API
   const { mutate: softDeleteVideo, isPending } = useMutation({
     mutationFn: deleteVideo,
+
     onSuccess: () => {
+      setDropdownVisible(null);
       // Invalidate or refetch the video list
       queryClient.invalidateQueries(["videos"]);
       toast.success("Video deleted successfully!");
-      setDropdownVisible(null);
     },
     onError: (error) => {
       console.error("Failed to delete video:", error);
@@ -69,8 +70,8 @@ const VideoCard = ({
   );
 
   const openUpdateModal = (video) => {
-    setSelectedVideo(video);
     setDropdownVisible(null);
+    setSelectedVideo(video);
   };
 
   const closeUpdateModal = () => setSelectedVideo(null);
