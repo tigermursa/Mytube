@@ -83,7 +83,7 @@ const VideoCard = ({
         selectedCategory={selectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4">
+      <main className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4 p-4">
         {isLoading || !data ? (
           Array.from({ length: 10 }).map((_, index) => (
             <SkeletonCard key={index} />
@@ -92,7 +92,7 @@ const VideoCard = ({
           filteredVideos.map((video, index) => (
             <div
               key={index}
-              className="relative bg-gray-900 rounded overflow-hidden shadow hover:shadow-lg cursor-pointer"
+              className="relative bg-gray-950 rounded overflow-hidden shadow hover:shadow-lg cursor-pointer"
               style={{ maxWidth: "100%", minWidth: "280px" }}
             >
               {playingVideo === index ? (
